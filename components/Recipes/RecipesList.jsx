@@ -111,8 +111,11 @@ const RecipesList = () => {
 
               {/* Show message if no recipes match */}
               {filteredRecipes.length === 0 && (
+                // <div className="text-center text-gray-700">
+                //   No recipes found for "{searchInput}".
+                // </div>
                 <div className="text-center text-gray-700">
-                  No recipes found for "{searchInput}".
+                  No recipes found for &quot;{searchInput}&quot;.
                 </div>
               )}
             </div>
