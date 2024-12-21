@@ -4,17 +4,28 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase/config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
-    // Monitor auth state changes
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
 
-    return () => unsubscribe();
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      unsubscribe();
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const handleSignOut = async () => {
@@ -26,8 +37,18 @@ const Navbar = () => {
     }
   };
 
+  const isActive = (path) => {
+    return pathname === path ? "bg-yellow-300 text-yellow-900 rounded-xl" : "";
+  };
+
   return (
-    <nav className="fixed z-50 w-full bg-white md:absolute md:bg-transparent">
+    <nav
+      className={`fixed z-50 w-full transition-all duration-300 bg-base-100 ${
+        isScrolled
+          ? "bg-white bg-opacity-50 backdrop-blur-md shadow-md"
+          : "bg-transparent"
+      }`}
+    >
       <div className="container m-auto px-2 md:px-12 lg:px-7">
         <div className="flex flex-wrap items-center justify-between py-3 gap-6 md:py-4 md:gap-0">
           <input
@@ -78,7 +99,9 @@ const Navbar = () => {
                 <li>
                   <Link
                     href="/all-recipes"
-                    className="block md:px-4 transition hover:text-yellow-700"
+                    className={`block md:px-4 transition hover:text-yellow-700 ${isActive(
+                      "/all-recipes"
+                    )}`}
                   >
                     <span>All recipes</span>
                   </Link>
@@ -86,7 +109,9 @@ const Navbar = () => {
                 <li>
                   <Link
                     href="/cart"
-                    className="block md:px-4 transition hover:text-yellow-700"
+                    className={`block md:px-4 transition hover:text-yellow-700 ${isActive(
+                      "/cart"
+                    )}`}
                   >
                     <span>Cart</span>
                   </Link>

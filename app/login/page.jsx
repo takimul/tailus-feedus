@@ -30,7 +30,7 @@ const LoginPage = () => {
       setLoading(false);
 
       // Redirect to the dashboard or desired page
-      router.push("/all-recipes");
+      router.push("/cart");
     } catch (err) {
       console.error("Error signing in:", err.code, err.message);
       setError("Failed to log in. Please check your credentials.");
@@ -39,7 +39,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div className="bg-gray-50 min-h-screen flex items-center justify-center ">
       <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center">Log In</h1>
 

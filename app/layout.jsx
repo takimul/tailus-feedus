@@ -4,6 +4,8 @@ import Navbar from "@/components/Navbar";
 
 import TanstackProvider from "@/providers/TanstackProvider";
 import { CartProvider } from "@/components/context/cartContext";
+import Footer from "@/components/Footer";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,7 +33,9 @@ export default function RootLayout({ children }) {
         <CartProvider>
           <TanstackProvider>
             <Navbar />
+            <ToastContainer />
             {children}
+            <Footer />
           </TanstackProvider>
         </CartProvider>
       </body>

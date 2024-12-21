@@ -1,7 +1,9 @@
 "use client";
+
 import React, { useState } from "react";
 import { auth } from "@/lib/firebase/config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +15,8 @@ const SignUpForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -43,6 +47,8 @@ const SignUpForm = () => {
 
       console.log("User created successfully:", user);
       setSuccess("Account created successfully!");
+
+      router.push("/");
     } catch (err) {
       console.error("Error signing up:", err.message);
       setError(err.message);
@@ -63,75 +69,81 @@ const SignUpForm = () => {
           <p className="text-green-500 text-sm text-center">{success}</p>
         )}
 
-        <form onSubmit={handleSignUp} className="space-y-6">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium">
-              Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200"
-              required
-            />
+        {loading ? (
+          <div className="flex justify-center items-center h-32">
+            <span className="loading loading-spinner loading-lg"></span>
           </div>
+        ) : (
+          <form onSubmit={handleSignUp} className="space-y-6">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium">
+                Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200"
+                required
+              />
+            </div>
 
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium">
-              Phone
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200"
-              placeholder="Optional"
-            />
-          </div>
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium">
+                Phone <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200"
+                required
+              />
+            </div>
 
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium">
-              Email <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200"
-              required
-            />
-          </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium">
+                Email <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200"
+                required
+              />
+            </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium">
-              Password <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200"
-              required
-            />
-          </div>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium">
+                Password <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200"
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            className={`w-full py-3 text-white font-semibold rounded ${
-              loading
-                ? "bg-blue-400 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600"
-            }`}
-            disabled={loading}
-          >
-            {loading ? "Signing Up..." : "Sign Up"}
-          </button>
-        </form>
+            <button
+              type="submit"
+              className={`w-full py-3 text-white font-semibold rounded ${
+                loading
+                  ? "bg-blue-400 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}
+              disabled={loading}
+            >
+              {loading ? "Signing Up..." : "Sign Up"}
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

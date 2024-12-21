@@ -45,7 +45,12 @@ const RecipesList = () => {
     setRecipeId(id);
   };
 
-  if (isLoading) return <div>Loading recipes...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
   if (error) return <div>Error loading recipes: {error.message}</div>;
 
   return (

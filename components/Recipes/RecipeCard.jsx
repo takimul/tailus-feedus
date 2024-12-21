@@ -1,5 +1,7 @@
 import React from "react";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useCart } from "../context/cartContext";
 
 const RecipeCard = ({ recipe, handleDetailsOpen }) => {
@@ -10,12 +12,24 @@ const RecipeCard = ({ recipe, handleDetailsOpen }) => {
   const handleAddToCart = (e) => {
     e.stopPropagation();
     addToCart(recipe);
+
+    // Trigger Toastify message
+    toast.success("Recipe added to cart!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
 
   return (
     <div
       onClick={() => handleDetailsOpen(recipe?.idMeal)}
-      className="group space-y-4 border border-gray-200 rounded-3xl bg-white px-6 py-6 text-center shadow-md hover:cursor-pointer hover:shadow-lg transition-shadow duration-200 ease-in-out"
+      className="group flex flex-col space-y-4 border border-gray-200 rounded-3xl bg-white px-6 py-6 text-center shadow-md hover:cursor-pointer hover:shadow-lg transition-shadow duration-200 ease-in-out"
     >
       {/* Recipe Image */}
       <Image
@@ -33,7 +47,7 @@ const RecipeCard = ({ recipe, handleDetailsOpen }) => {
       </h3>
 
       {/* Recipe Description */}
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-gray-600 flex-grow">
         {recipe?.description || "A delicious recipe to try at home!"}
       </p>
 
@@ -47,7 +61,7 @@ const RecipeCard = ({ recipe, handleDetailsOpen }) => {
       {/* Add to Cart Button */}
       <button
         onClick={handleAddToCart}
-        className="w-full mt-4 py-2 text-white bg-green-500 hover:bg-green-600 rounded-lg"
+        className="w-full mt-4 py-2 text-white bg-green-500 hover:bg-green-600 rounded-lg pb-4"
       >
         Add to Cart
       </button>

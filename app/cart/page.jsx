@@ -2,27 +2,38 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useCart } from "@/components/context/cartContext";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const { cart, removeFromCart, clearCart } = useCart();
   const [isLoading, setIsLoading] = useState(true);
 
-  // Use effect to set loading state to false when cart data is ready
   useEffect(() => {
     if (cart) {
       setIsLoading(false);
     }
   }, [cart]);
 
-  // Handle cart display and empty state
+  const handleRemoveItem = (idMeal) => {
+    removeFromCart(idMeal);
+    toast.info("Item removed from cart", {
+      position: "top-right",
+      autoClose: 2000,
+    });
+  };
+
   const handleEmptyCart = () => {
     clearCart();
+    toast.warn("Cart cleared successfully", {
+      position: "top-right",
+      autoClose: 2000,
+    });
   };
 
   if (isLoading) {
     return (
-      <div className="text-center text-gray-600 py-10">
-        Loading your cart...
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
       </div>
     );
   }
@@ -31,7 +42,9 @@ const Cart = () => {
     <div className="bg-gray-50 min-h-screen py-10">
       <div className="container mx-auto">
         {/* Heading */}
-        <h1 className="text-4xl font-semibold text-center mb-8">Your Cart</h1>
+        <h1 className="text-4xl font-semibold text-center mb-8 mt-24">
+          Your Cart
+        </h1>
 
         {/* If Cart is Empty */}
         {cart.length === 0 ? (
@@ -40,49 +53,60 @@ const Cart = () => {
           </div>
         ) : (
           <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="space-y-6">
               {/* Cart Items List */}
               {cart.map((item) => (
                 <div
                   key={item.idMeal}
-                  className="group space-y-4 border border-gray-200 rounded-3xl bg-white px-6 py-6 text-center shadow-md hover:cursor-pointer hover:shadow-lg transition-shadow duration-200 ease-in-out"
+                  className="flex items-center justify-between bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-200 ease-in-out"
                 >
-                  {/* Recipe Image */}
-                  <Image
-                    className="mx-auto rounded-2xl object-cover"
-                    src={item?.strMealThumb}
-                    alt={item?.strMeal || "Recipe Image"}
-                    loading="lazy"
-                    width={300}
-                    height={300}
-                  />
+                  {/* Image */}
+                  <div className="w-28 h-28 relative">
+                    <Image
+                      className="w-full h-full object-cover rounded-md"
+                      src={item?.strMealThumb}
+                      alt={item?.strMeal || "Recipe Image"}
+                      loading="lazy"
+                      width={112}
+                      height={112}
+                    />
+                    {/* Display Quantity */}
+                    {item.quantity > 1 && (
+                      <div className="absolute top-0 right-0 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-1">
+                        {item.quantity}
+                      </div>
+                    )}
+                  </div>
 
-                  {/* Recipe Name */}
-                  <h3 className="text-xl font-semibold text-gray-800">
-                    {item?.strMeal || "Untitled Recipe"}
-                  </h3>
+                  {/* Recipe Details */}
+                  <div className="flex-grow ml-6">
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      {item?.strMeal || "Untitled Recipe"}
+                    </h3>
+                    <p className="text-sm text-gray-600 mt-2">
+                      {item?.description ||
+                        "A delicious recipe to try at home!"}
+                    </p>
+                  </div>
 
-                  {/* Recipe Description */}
-                  <p className="text-sm text-gray-600">
-                    {item?.description || "A delicious recipe to try at home!"}
-                  </p>
-
-                  {/* Remove from Cart Button */}
-                  <button
-                    onClick={() => removeFromCart(item.idMeal)}
-                    className="w-full mt-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg"
-                  >
-                    Remove from Cart
-                  </button>
+                  {/* Remove Button */}
+                  <div className="ml-4">
+                    <button
+                      onClick={() => handleRemoveItem(item.idMeal)}
+                      className="py-2 px-4 text-white bg-red-500 hover:bg-red-600 rounded-lg"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
 
             {/* Clear Cart Button */}
-            <div className="mt-6 text-center">
+            <div className="mt-8 text-center">
               <button
                 onClick={handleEmptyCart}
-                className="py-2 px-6 text-white bg-red-600 hover:bg-red-700 rounded-lg"
+                className="py-3 px-8 text-white bg-red-600 hover:bg-red-700 rounded-lg font-semibold"
               >
                 Clear Cart
               </button>

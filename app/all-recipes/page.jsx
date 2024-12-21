@@ -44,11 +44,16 @@ const AllRecipes = () => {
     setRecipeId(id);
   };
 
-  if (loading) return <div>Loading all recipes...</div>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <div className="bg-gray-50 min-h-screen py-10">
+    <div className="bg-gray-50 min-h-screen py-20 ">
       <div className="container mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8 mt-8">
           All Recipes

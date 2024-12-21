@@ -16,9 +16,11 @@
     "next": "14.2.16",
     "react": "^18",
     "react-dom": "^18",
-    "react-firebase-hooks": "^5.1.1"
+    "react-firebase-hooks": "^5.1.1",
+    "react-toastify": "^11.0.2"
   },
   "devDependencies": {
+    "daisyui": "^4.12.22",
     "eslint": "^8",
     "eslint-config-next": "14.2.16",
     "postcss": "^8",
