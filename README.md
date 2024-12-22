@@ -21,6 +21,12 @@
 7. **Footer Component**:
    - Designed and added a **footer** with useful links and branding information.
    - Made the footer responsive to align seamlessly with the rest of the layout.
+8. **Cart Functionality**
+   - Implemented a context-based cart management system using React's Context API.
+   - The cart allows users to add, remove, and clear items.
+   - Data persistence is achieved via localStorage for non-logged-in users.
+   - Each item in the cart includes a quantity property, enabling users to add multiple units of the same recipe.
+   - The cart is fetched from localStorage during the initial load to ensure persistence across sessions.
 
 ### Non-Technical Description
 
@@ -28,6 +34,11 @@
 - **Enhanced Feedback Mechanism**: Incorporated real-time notifications to guide users during interactions.
 - **Aesthetic Enhancements**: Added a professional-looking footer to improve the overall visual appeal of the application.
 - **Security Enhancements**: Ensured data security by using environment variables and best practices for authentication.
+- **Cart Functionality**:
+  - Users can now add their favorite recipes to a cart.
+  - If the user is not logged in, the cart is saved locally, ensuring the data remains available even if the page is refreshed.
+  - If a user adds the same recipe multiple times, the quantity increases instead of duplicating the item in the cart.
+  - Users can also remove individual items or clear the entire cart.
 
 ---
 
@@ -46,14 +57,18 @@
    - Cause: The setIsOpen function was expected to be passed as a prop but was either undefined or improperly provided. This caused the component to break when attempting to invoke setIsOpen.
    - Fix: Added proper type checking and default handling for the setIsOpen prop. Verified that the parent component correctly passed a valid function to manage the open/close state.
 6. **Search Input Handling Issue**
-   -Cause: The search functionality was not implemented correctly. The searchInput was improperly handled, and filtering logic was missing.
-   -Fix:
-   Fixed the searchInput state handling to ensure it stores the correct user input.
-   Implemented a filtering mechanism that compares the query with recipe names in a case-insensitive manner.
-   Displayed a message if no recipes match the search query.
+   - Cause: The search functionality was not implemented correctly. The searchInput was improperly handled, and filtering logic was missing.
+   - Fix:
+   - Fixed the searchInput state handling to ensure it stores the correct user input.
+   - Implemented a filtering mechanism that compares the query with recipe names in a case-insensitive manner.
+   - Displayed a message if no recipes match the search query.
 
 ---
 
 ## Time Estimate
 
 **Total Time Spent**: Approximately 20 hours
+
+**Live link** : https://practical-assessment-hazel.vercel.app/
+
+**Github Repository Link**: https://github.com/takimul/tailus-feedus
